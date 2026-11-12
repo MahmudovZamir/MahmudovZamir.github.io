@@ -261,9 +261,13 @@ textarea.in{min-height:110px;font-family:ui-monospace,Menlo,monospace;font-size:
     <div class="brand"><div class="logo">ATB</div><div><h1>Kredit</h1><small>İlk quraşdırma</small></div></div>
     <div class="card" style="display:flex;flex-direction:column;gap:12px">
       <h3 style="font-size:18px">Məlumatı yükləyin</h3>
-      <div class="note">Bu tətbiq məlumatı yalnız bu telefonda saxlayır. Başlamaq üçün ehtiyat mətnini bura yapışdırın: göndərilən mətni və ya başqa nüsxədə <b>Ayarlar → Ehtiyat nüsxə → Kopyala</b> ilə götürdüyünüz mətni.</div>
-      <textarea class="in" id="setup-text" placeholder="Ehtiyat mətnini bura yapışdırın" style="min-height:140px"></textarea>
-      <button class="btn btn-primary" type="button" id="setup-go">Yüklə</button>
+      <div class="note">Bu, ilk açılışdır. Məlumat yalnız bu telefonda saxlanılacaq. Başlamaq üçün sizə göndərilən ehtiyat faylını bir dəfə yükləyin, sonra tətbiq hər dəfə birbaşa açılacaq.</div>
+      <label class="btn btn-primary" for="setup-file" style="width:100%">Ehtiyat faylını seç</label>
+      <input type="file" id="setup-file" accept=".txt,.json,text/plain,application/json" style="display:none">
+      <div class="note" style="text-align:center">Fayllar tətbiqində <b>Kredit-ehtiyat-melumat.txt</b> faylını seçin</div>
+      <div class="note" style="text-align:center;margin-top:4px">və ya mətni yapışdırın:</div>
+      <textarea class="in" id="setup-text" placeholder="Ehtiyat mətnini bura yapışdırın" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="min-height:110px"></textarea>
+      <button class="btn btn-ghost" type="button" id="setup-go">Mətndən yüklə</button>
     </div>
   </div>
 </div>
@@ -352,7 +356,9 @@ textarea.in{min-height:110px;font-family:ui-monospace,Menlo,monospace;font-size:
     <div class="card" style="display:flex;flex-direction:column;gap:10px">
       <div class="label">Ehtiyat nüsxə</div>
       <div class="note">Bütün məlumatı mətn kimi kopyalayın və ya başqa nüsxədən yapışdırıb bərpa edin.</div>
-      <div class="row2"><button class="btn btn-ghost" id="exp" type="button">Kopyala</button><button class="btn btn-ghost" id="imp-open" type="button">Bərpa et</button></div>
+      <div class="row2"><button class="btn btn-primary" id="exp-file" type="button">Faylı saxla</button><label class="btn btn-ghost" for="imp-file">Fayldan bərpa et</label></div>
+      <input type="file" id="imp-file" accept=".txt,.json,text/plain,application/json" style="display:none">
+      <div class="row2"><button class="btn btn-ghost" id="exp" type="button">Mətni kopyala</button><button class="btn btn-ghost" id="imp-open" type="button">Mətndən bərpa et</button></div>
       <textarea class="in" id="imp" placeholder="Ehtiyat mətni bura yapışdırın" hidden></textarea>
       <button class="btn btn-primary" id="imp-go" type="button" hidden>Bu məlumatla əvəz et</button>
     </div>
@@ -1153,6 +1159,17 @@ function doImport(text, ask){
 }
 function showSetup(on){ $("setup").style.display = on ? "flex" : "none"; document.querySelector(".nav").style.display = on ? "none" : ""; }
 $("setup-go").onclick = () => doImport($("setup-text").value, false);
+function readFileTo(input, ask){ const f = input.files && input.files[0]; if (!f) return; const r = new FileReader();
+  r.onload = () => { doImport(String(r.result || "").replace(/^\uFEFF/, ""), ask); input.value = ""; };
+  r.onerror = () => toast("Fayl oxunmadı"); r.readAsText(f, "utf-8"); }
+$("setup-file").onchange = () => readFileTo($("setup-file"), false);
+$("imp-file").onchange = () => readFileTo($("imp-file"), true);
+$("exp-file").onclick = () => {
+  try { const blob = new Blob([exportText()], { type: "text/plain;charset=utf-8" }); const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = "Kredit-ehtiyat-" + todayISO() + ".txt"; document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500); toast("Fayl hazırlandı — Fayllar-da saxlayın"); }
+  catch(e) { toast("Fayl yaradılmadı, Kopyala istifadə edin"); }
+};
 
 /* ---------- helpers ---------- */
 let tt; function toast(m){ const t = $("toast"); t.textContent = m; t.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => t.classList.remove("on"), 2400); }
