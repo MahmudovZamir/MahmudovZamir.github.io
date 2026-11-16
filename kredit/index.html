@@ -184,7 +184,7 @@ textarea.in{min-height:110px;font-family:ui-monospace,Menlo,monospace;font-size:
 .msg{white-space:pre-wrap;background:var(--chip);border-radius:14px;padding:12px 14px;font-size:13.5px;font-weight:600}
 
 /* sheet */
-.scrim{position:fixed;inset:0;background:rgba(5,12,22,.5);display:none;z-index:40}
+.scrim{position:fixed;inset:0;background:rgba(5,12,22,.5);display:none;z-index:40;cursor:pointer}
 .scrim.on{display:block}
 .sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;max-width:560px;margin:0 auto;background:var(--surface);border-radius:24px 24px 0 0;padding:10px 18px calc(18px + env(safe-area-inset-bottom));transform:translateY(110%);transition:transform .22s ease;max-height:92%;overflow:auto;display:flex;flex-direction:column;gap:14px}
 .sheet.on{transform:none;visibility:visible}
@@ -263,7 +263,7 @@ textarea.in{min-height:110px;font-family:ui-monospace,Menlo,monospace;font-size:
       <h3 style="font-size:18px">Məlumatı yükləyin</h3>
       <div class="note">Bu, ilk açılışdır. Məlumat yalnız bu telefonda saxlanılacaq. Başlamaq üçün sizə göndərilən ehtiyat faylını bir dəfə yükləyin, sonra tətbiq hər dəfə birbaşa açılacaq.</div>
       <label class="btn btn-primary" for="setup-file" style="width:100%">Ehtiyat faylını seç</label>
-      <input type="file" id="setup-file" accept=".txt,.json,text/plain,application/json" style="display:none">
+      <input type="file" id="setup-file" accept=".txt,.json,text/plain,application/json" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none">
       <div class="note" style="text-align:center">Fayllar tətbiqində <b>Kredit-ehtiyat-melumat.txt</b> faylını seçin</div>
       <div class="note" style="text-align:center;margin-top:4px">və ya mətni yapışdırın:</div>
       <textarea class="in" id="setup-text" placeholder="Ehtiyat mətnini bura yapışdırın" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="min-height:110px"></textarea>
@@ -337,7 +337,7 @@ textarea.in{min-height:110px;font-family:ui-monospace,Menlo,monospace;font-size:
         <div class="note">Razılaşma 50/50-dir. Kim əlavə ödəniş edərsə, onun yaratdığı faiz qənaəti yalnız onun borcundan çıxılır.</div>
       </div>
       <div class="field"><span>İllik faiz dərəcəsi, %</span>
-        <input class="in" id="rate" type="number" step="0.01" min="0" inputmode="decimal">
+        <input class="in" id="rate" type="text" step="0.01" min="0" inputmode="decimal" autocomplete="off" enterkeyhint="done">
         <div class="note">Yalnız əlavə ödənişdən sonrakı ayları hesablamaq üçün lazımdır. Ondan əvvəlki aylar bankın qrafiki ilə gedir.</div>
       </div>
       <button class="btn btn-primary" id="save-set" type="button">Yadda saxla</button>
@@ -357,7 +357,7 @@ textarea.in{min-height:110px;font-family:ui-monospace,Menlo,monospace;font-size:
       <div class="label">Ehtiyat nüsxə</div>
       <div class="note">Bütün məlumatı mətn kimi kopyalayın və ya başqa nüsxədən yapışdırıb bərpa edin.</div>
       <div class="row2"><button class="btn btn-primary" id="exp-file" type="button">Faylı saxla</button><label class="btn btn-ghost" for="imp-file">Fayldan bərpa et</label></div>
-      <input type="file" id="imp-file" accept=".txt,.json,text/plain,application/json" style="display:none">
+      <input type="file" id="imp-file" accept=".txt,.json,text/plain,application/json" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none">
       <div class="row2"><button class="btn btn-ghost" id="exp" type="button">Mətni kopyala</button><button class="btn btn-ghost" id="imp-open" type="button">Mətndən bərpa et</button></div>
       <textarea class="in" id="imp" placeholder="Ehtiyat mətni bura yapışdırın" hidden></textarea>
       <button class="btn btn-primary" id="imp-go" type="button" hidden>Bu məlumatla əvəz et</button>
@@ -379,8 +379,8 @@ textarea.in{min-height:110px;font-family:ui-monospace,Menlo,monospace;font-size:
   <h3>Yeni ödəniş</h3>
   <label class="field" for="f-date"><span>Tarix</span><input class="in" type="date" id="f-date" required></label>
   <div class="row2">
-    <label class="field" for="f-z"><span>@@P1@@ ödədi</span><div class="money"><em style="background:var(--zamir)">@@P1I@@</em><input class="in" id="f-z" type="number" inputmode="decimal" step="0.01" min="0" placeholder="0"></div></label>
-    <label class="field" for="f-c"><span>@@P2@@ ödədi</span><div class="money"><em style="background:var(--coshqun)">@@P2I@@</em><input class="in" id="f-c" type="number" inputmode="decimal" step="0.01" min="0" placeholder="0"></div></label>
+    <label class="field" for="f-z"><span>@@P1@@ ödədi</span><div class="money"><em style="background:var(--zamir)">@@P1I@@</em><input class="in" id="f-z" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" step="0.01" min="0" placeholder="0"></div></label>
+    <label class="field" for="f-c"><span>@@P2@@ ödədi</span><div class="money"><em style="background:var(--coshqun)">@@P2I@@</em><input class="in" id="f-c" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" step="0.01" min="0" placeholder="0"></div></label>
   </div>
   <label class="switch" for="f-extra"><div><b>Əlavə ödəniş</b><small>Aylıq ödənişdən əlavə: birbaşa əsas borcdan silinir</small></div><input type="checkbox" id="f-extra"><span class="knob"></span></label>
   <label class="field" for="f-note"><span>Qeyd (istəyə görə)</span><input class="in" id="f-note" type="text" maxlength="140" placeholder="məs. kartdan köçürmə"></label>
@@ -394,7 +394,7 @@ textarea.in{min-height:110px;font-family:ui-monospace,Menlo,monospace;font-size:
   <h3>Ödənişi düzəlt</h3>
   <label class="field" for="e-date"><span>Tarix</span><input class="in" type="date" id="e-date"></label>
   <div class="field"><span>Kim ödədi</span><div class="seg" id="e-who"><button type="button" data-v="@@P1@@">@@P1@@</button><button type="button" data-v="@@P2@@">@@P2@@</button></div></div>
-  <label class="field" for="e-amt"><span>Məbləğ, ₼</span><div class="money"><em id="e-em" style="background:var(--zamir)">@@P1I@@</em><input class="in" id="e-amt" type="number" inputmode="decimal" step="0.01"></div></label>
+  <label class="field" for="e-amt"><span>Məbləğ, ₼</span><div class="money"><em id="e-em" style="background:var(--zamir)">@@P1I@@</em><input class="in" id="e-amt" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" step="0.01"></div></label>
   <div class="field"><span>Növ</span><div class="seg seg3" id="e-kind"><button type="button" data-v="regular">Aylıq</button><button type="button" data-v="extra">Əlavə</button><button type="button" data-v="adj">Düzəliş</button></div>
     <div class="note" id="e-kind-n"></div></div>
   <label class="field" for="e-note"><span>Qeyd</span><input class="in" id="e-note" type="text" maxlength="140"></label>
@@ -408,7 +408,7 @@ textarea.in{min-height:110px;font-family:ui-monospace,Menlo,monospace;font-size:
 <div class="dialog" id="bdlg" role="dialog" aria-modal="true"><form class="card" id="bform" novalidate><h3>Bankın göstərdiyi borc</h3>
   <div class="note">Bank tətbiqində gördüyünüz cari borcu yazın. Hesablamalarla müqayisə üçün istifadə olunur.</div>
   <label class="field" for="b-date"><span>Tarix</span><input class="in" type="date" id="b-date"></label>
-  <label class="field" for="b-amt"><span>Məbləğ, ₼</span><input class="in" type="number" id="b-amt" step="0.01" min="0" inputmode="decimal"></label>
+  <label class="field" for="b-amt"><span>Məbləğ, ₼</span><input class="in" type="text" id="b-amt" step="0.01" min="0" inputmode="decimal" autocomplete="off" enterkeyhint="done"></label>
   <div class="err" id="b-err"></div>
   <div class="row2"><button class="btn btn-ghost" id="b-no" type="button">Ləğv et</button><button class="btn btn-primary" type="submit">Yadda saxla</button></div></form></div>
 <div class="toast" id="toast" role="status"></div>
@@ -585,6 +585,10 @@ const COLORS = { "@@P1@@": "var(--zamir)", "@@P2@@": "var(--coshqun)" };
 const STAT = { paid:"Ödənilib", partial:"Qismən", "partial-late":"Qismən · gecikir", late:"Gecikir", next:"Növbəti", wait:"Gözləyir" };
 function money(x, d){ d = d == null ? 2 : d; const neg = x < 0; x = Math.abs(x); const p = x.toFixed(d).split("."); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, " "); return (neg?"−":"") + p.join(",");}
 const M = (x) => money(x) + " ₼";
+function parseNum(v){ let s = String(v == null ? "" : v).replace(/[\s\u00A0\u202F₼]/g, "").replace(/−/g, "-");
+  if (s.indexOf(",") >= 0 && s.indexOf(".") >= 0) s = s.replace(/\./g, "").replace(",", "."); else s = s.replace(",", ".");
+  return /^-?\d*\.?\d+$/.test(s) ? parseFloat(s) : NaN; }
+const showNum = (x) => (x == null || x === "") ? "" : String(Math.round(x * 100) / 100).replace(".", ",");
 const pd = (s) => { const [y,m,d] = s.split("-").map(Number); return {y,m,d}; };
 const fdate = (s) => { if(!s) return "—"; const t = pd(s); return t.d + " " + AY[t.m-1] + " " + t.y; };
 const fmon = (s) => { const t = pd(s); return AY[t.m-1] + " " + t.y; };
@@ -706,7 +710,7 @@ function renderBank(R){
       (Math.abs(diff) > 1 ? '<div class="note" style="margin-top:8px">Fərq adətən bankın hələ silmədiyi son ödəniş və ya bu günə qədər hesablanmış faizdir.</div>' : '');
   }
   $("b-open").disabled = !state.canWrite;
-  $("b-open").onclick = () => { const b = state.settings.bankBalance || {}; $("b-date").value = b.date || todayISO(); $("b-amt").value = b.amount || ""; $("b-err").textContent = ""; $("bdlg").classList.add("on"); $("scrim").classList.add("on"); };
+  $("b-open").onclick = () => { const b = state.settings.bankBalance || {}; $("b-date").value = b.date || todayISO(); $("b-amt").value = showNum(b.amount); $("b-err").textContent = ""; $("bdlg").classList.add("on"); $("scrim").classList.add("on"); };
 }
 function closeB(){ $("bdlg").classList.remove("on"); $("scrim").classList.remove("on"); }
 function renderNext(R){
@@ -828,14 +832,14 @@ function openEdit(id){
   if (!state.canWrite) { toast("Bu səhifədə yalnız baxmaq icazəniz var"); return; }
   const p = state.payments.find((x) => x.id === id); if (!p) return;
   state.editing = p;
-  $("e-date").value = p.date; setSeg("e-who", p.who); $("e-amt").value = p.amount; setSeg("e-kind", p.kind || "regular");
+  $("e-date").value = p.date; setSeg("e-who", p.who); $("e-amt").value = showNum(p.amount); setSeg("e-kind", p.kind || "regular");
   $("e-note").value = p.note || ""; $("e-err").textContent = ""; updEdit();
   $("scrim").classList.add("on"); $("esheet").classList.add("on");
 }
 function closeEdit(){ $("esheet").classList.remove("on"); $("scrim").classList.remove("on"); state.editing = null; }
 function editDraft(){
   const p = state.editing; if (!p) return null;
-  const amt = parseFloat(String($("e-amt").value || "").replace(",", "."));
+  const amt = parseNum($("e-amt").value);
   return Object.assign({}, p, { date: $("e-date").value, who: segVal("e-who"), amount: Math.round(amt*100)/100, kind: segVal("e-kind"), note: $("e-note").value.trim().slice(0,140) });
 }
 function updEdit(){
@@ -1036,7 +1040,7 @@ function renderSettings(R){
   $("seg-mode").querySelectorAll("button").forEach((b) => { b.classList.toggle("on", b.dataset.v === (state.draftMode || s.extraMode)); });
   if (document.activeElement !== $("fz")) $("fz").value = Math.round((state.draftFz != null ? state.draftFz : s.fixedZamir) * 100);
   updFz();
-  if (document.activeElement !== $("rate")) $("rate").value = (s.rate * 100).toFixed(2);
+  if (document.activeElement !== $("rate")) $("rate").value = state.draftRate != null ? state.draftRate : (s.rate * 100).toFixed(2).replace(".", ",");
   const L = state.loan, T = R.totals;
   $("loan").innerHTML = [["Bank", L.bank], ["Kredit məbləği", M(L.principal)], ["Komisiya", M(L.commission)], ["Əldə olunan", M(L.principal - L.commission)],
     ["Aylıq ödəniş", M(L.schedule[5][1] + L.schedule[5][2])], ["Müddət", T.monthsTotal + " ay"], ["İlk ödəniş", fdate(L.schedule[0][0])], ["Son ödəniş", fdate(T.endDate)],
@@ -1058,14 +1062,14 @@ function lastSplit(){
 function openSheet(){
   if (!state.canWrite) { toast("Bu səhifədə yalnız baxmaq icazəniz var"); return; }
   const ls = lastSplit();
-  $("f-date").value = todayISO(); $("f-z").value = ls["@@P1@@"] || ""; $("f-c").value = ls["@@P2@@"] || "";
+  $("f-date").value = todayISO(); $("f-z").value = showNum(ls["@@P1@@"] || ""); $("f-c").value = showNum(ls["@@P2@@"] || "");
   $("f-extra").checked = false; $("f-note").value = ""; $("f-err").textContent = "";
   $("scrim").classList.add("on"); $("sheet").classList.add("on"); preview();
   setTimeout(() => $("f-z").focus(), 230);
 }
 function closeSheet(){ $("scrim").classList.remove("on"); $("sheet").classList.remove("on"); }
 function formEntries(){
-  const date = $("f-date").value, z = parseFloat(($("f-z").value || "").replace(",", ".")) || 0, c = parseFloat(($("f-c").value || "").replace(",", ".")) || 0;
+  const date = $("f-date").value, z = parseNum($("f-z").value) || 0, c = parseNum($("f-c").value) || 0;
   const kind = $("f-extra").checked ? "extra" : "regular", note = $("f-note").value.trim(), now = Date.now();
   const out = [];
   if (z > 0) out.push({ id: uid(), date, who: "@@P1@@", amount: Math.round(z*100)/100, kind, note, created: now });
@@ -1100,7 +1104,7 @@ $("f-cancel").onclick = closeSheet; $("scrim").onclick = () => { closeSheet(); c
 $("b-no").onclick = closeB;
 $("bform").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const d = $("b-date").value, a = parseFloat(($("b-amt").value || "").replace(",", "."));
+  const d = $("b-date").value, a = parseNum($("b-amt").value);
   if (!d || !(a >= 0)) { $("b-err").textContent = "Tarixi və məbləği yazın"; return; }
   try { await saveSettings(Object.assign({}, state.settings, { bankBalance: { date: d, amount: Math.round(a*100)/100 } })); closeB(); toast("Bank qalığı yeniləndi"); }
   catch(err) { $("b-err").textContent = "Yadda saxlamaq alınmadı"; }
@@ -1119,11 +1123,12 @@ $("sheet").addEventListener("submit", async (e) => {
 /* ---------- settings actions ---------- */
 $("seg-mode").querySelectorAll("button").forEach((b) => b.onclick = () => { state.draftMode = b.dataset.v; renderSettings(state.R); });
 $("fz").addEventListener("input", () => { state.draftFz = +$("fz").value / 100; updFz(); });
+$("rate").addEventListener("input", () => { state.draftRate = $("rate").value; });
 $("save-set").onclick = async () => {
-  const rate = parseFloat(($("rate").value || "").replace(",", ".")) / 100;
+  const rate = parseNum($("rate").value) / 100;
   if (!(rate >= 0 && rate < 1)) { toast("Faiz dərəcəsini düzgün yazın"); return; }
   const s = { bankBalance: state.settings.bankBalance || null, extraMode: state.draftMode || state.settings.extraMode, fixedZamir: state.draftFz != null ? state.draftFz : state.settings.fixedZamir, rate };
-  try { await saveSettings(s); state.draftMode = null; state.draftFz = null; toast("Ayarlar yadda saxlandı"); } catch(e) { toast("Alınmadı, yenidən cəhd edin"); }
+  try { await saveSettings(s); state.draftMode = null; state.draftFz = null; state.draftRate = null; toast("Ayarlar yadda saxlandı"); } catch(e) { toast("Alınmadı, yenidən cəhd edin"); }
 };
 $("exp").onclick = () => copy(exportText());
 $("imp-open").onclick = () => { $("imp").hidden = !$("imp").hidden; $("imp-go").hidden = $("imp").hidden; };
@@ -1164,12 +1169,17 @@ function readFileTo(input, ask){ const f = input.files && input.files[0]; if (!f
   r.onerror = () => toast("Fayl oxunmadı"); r.readAsText(f, "utf-8"); }
 $("setup-file").onchange = () => readFileTo($("setup-file"), false);
 $("imp-file").onchange = () => readFileTo($("imp-file"), true);
-$("exp-file").onclick = () => {
-  try { const blob = new Blob([exportText()], { type: "text/plain;charset=utf-8" }); const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob); a.download = "Kredit-ehtiyat-" + todayISO() + ".txt"; document.body.appendChild(a); a.click();
-    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500); toast("Fayl hazırlandı — Fayllar-da saxlayın"); }
-  catch(e) { toast("Fayl yaradılmadı, Kopyala istifadə edin"); }
-};
+$("exp-file").onclick = async () => {
+  const name = "Kredit-ehtiyat-" + todayISO() + ".txt", text = exportText();
+  try {
+    const file = new File([text], name, { type: "text/plain" });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: name }); toast("Ehtiyat nüsxə hazırdır"); return; }
+  } catch(e) { if (e && e.name === "AbortError") return; }
+  try { const blob = new Blob([text], { type: "text/plain;charset=utf-8" }); const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500); toast("Fayl hazırlandı"); }
+  catch(e) { toast("Fayl yaradılmadı, Mətni kopyala istifadə edin"); }
+}
 
 /* ---------- helpers ---------- */
 let tt; function toast(m){ const t = $("toast"); t.textContent = m; t.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => t.classList.remove("on"), 2400); }
